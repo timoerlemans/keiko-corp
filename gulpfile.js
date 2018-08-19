@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var cssnano = require('gulp-cssnano');
 var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
+var uglify = require('gulp-uglify');
+var pump = require('pump');
 
 gulp.task('default', function () {
     return gulp.src('./css/styles.scss')
@@ -14,4 +16,14 @@ gulp.task('default', function () {
         ))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('./css'));
+});
+
+gulp.task('compress', function (cb) {
+    pump([
+            gulp.src('js/*.js'),
+            uglify(),
+            gulp.dest('js/build')
+        ],
+        cb
+    );
 });
