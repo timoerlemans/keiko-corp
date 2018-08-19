@@ -2,8 +2,8 @@ var gulp = require('gulp');
 var cssnano = require('gulp-cssnano');
 var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
-var pump = require('pump');
+var bundle = require('gulp-bundle-assets');
+
 
 gulp.task('default', function () {
     return gulp.src('./css/styles.scss')
@@ -18,12 +18,8 @@ gulp.task('default', function () {
         .pipe(gulp.dest('./css'));
 });
 
-gulp.task('compress', function (cb) {
-    pump([
-            gulp.src('js/*.js'),
-            uglify(),
-            gulp.dest('js/build')
-        ],
-        cb
-    );
+gulp.task('bundle', function() {
+    return gulp.src('./bundle.config.js')
+        .pipe(bundle())
+        .pipe(gulp.dest('./public'));
 });
